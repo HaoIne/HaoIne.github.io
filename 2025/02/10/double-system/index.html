@@ -1,0 +1,203 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>double system | HaoIne</title><meta name="author" content="HaoIne"><meta name="copyright" content="HaoIne"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="安装 windows 和 Kali Linux 双系统之前一直使用在虚拟机上安装的 kali， 由于虚拟机的性能限制，使用起来一直很难受，便尝试安装了双系统，使用 kali的 GRUB 引导在开机时选择系统。 第一次尝试双系统的安装，还是非常麻烦的，也遇到了挺多问题，在这里记录一下 首先，为 kali 系统分出一部分磁盘空间分盘的话，可以使用 windows 自带的磁盘管理工具 diskmgmt.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="double system">
+<meta property="og:url" content="http://haoine.github.io/2025/02/10/double-system/index.html">
+<meta property="og:site_name" content="HaoIne">
+<meta property="og:description" content="安装 windows 和 Kali Linux 双系统之前一直使用在虚拟机上安装的 kali， 由于虚拟机的性能限制，使用起来一直很难受，便尝试安装了双系统，使用 kali的 GRUB 引导在开机时选择系统。 第一次尝试双系统的安装，还是非常麻烦的，也遇到了挺多问题，在这里记录一下 首先，为 kali 系统分出一部分磁盘空间分盘的话，可以使用 windows 自带的磁盘管理工具 diskmgmt.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://haoine.github.io/img/header.png">
+<meta property="article:published_time" content="2025-02-10T11:46:25.000Z">
+<meta property="article:modified_time" content="2025-02-10T12:51:37.092Z">
+<meta property="article:author" content="HaoIne">
+<meta property="article:tag" content="study">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://haoine.github.io/img/header.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "double system",
+  "url": "http://haoine.github.io/2025/02/10/double-system/",
+  "image": "http://haoine.github.io/img/header.png",
+  "datePublished": "2025-02-10T11:46:25.000Z",
+  "dateModified": "2025-02-10T12:51:37.092Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "HaoIne",
+      "url": "http://haoine.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="http://haoine.github.io/2025/02/10/double-system/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'double system',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">HaoIne</span></a><a class="nav-page-title" href="/"><span class="site-name">double system</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">double system</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-10T11:46:25.000Z" title="发表于 2025-02-10 19:46:25">2025-02-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-10T12:51:37.092Z" title="更新于 2025-02-10 20:51:37">2025-02-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="安装-windows-和-Kali-Linux-双系统"><a href="#安装-windows-和-Kali-Linux-双系统" class="headerlink" title="安装 windows 和 Kali Linux 双系统"></a>安装 windows 和 Kali Linux 双系统</h2><p>之前一直使用在虚拟机上安装的 kali， 由于虚拟机的性能限制，使用起来一直很难受，便尝试安装了双系统，使用 kali<br>的 GRUB 引导在开机时选择系统。 第一次尝试双系统的安装，还是非常麻烦的，也遇到了挺多问题，在这里记录一下</p>
+<h3 id="首先，为-kali-系统分出一部分磁盘空间"><a href="#首先，为-kali-系统分出一部分磁盘空间" class="headerlink" title="首先，为 kali 系统分出一部分磁盘空间"></a>首先，为 kali 系统分出一部分磁盘空间</h3><p>分盘的话，可以使用 windows 自带的磁盘管理工具 diskmgmt.msc，但是由于 windows 的限制，在分盘时可分出的部分非常小，完全不够用。<br>而使用网上的一些磁盘管理工具软件又都要收费，我就使用了开源的 Gparted-live 镜像进行分盘  </p>
+<ol>
+<li>在<a target="_blank" rel="noopener" href="https://gparted.org/livecd.php"> Gparted-live 官网</a>下载 Gparted-live 镜像文件</li>
+<li>在<a target="_blank" rel="noopener" href="https://rufus.ie/en/"> rufus 官网</a>下载 rufus 用于制作 Gparted-live 驱动U盘</li>
+<li>在 windows 设置-系统-恢复 中找到立即重新启动，重启后进入 windows 系统恢复界面，选择疑难解答-从设备启动-removable device，便可进入 Gparted-live</li>
+<li>在 Gparted-live 进行分盘操作</li>
+</ol>
+<h3 id="进行-Kali-Linux-的安装"><a href="#进行-Kali-Linux-的安装" class="headerlink" title="进行 Kali Linux 的安装"></a>进行 Kali Linux 的安装</h3><p>先在<a target="_blank" rel="noopener" href="https://www.kali.org/"> Kali Linux 官网</a>下载 linux 镜像,再使用 rufus 制作 Kali 驱动U盘，从U盘启动便可开始 Kali 的安装</p>
+<h3 id="安装时的问题"><a href="#安装时的问题" class="headerlink" title="安装时的问题"></a>安装时的问题</h3><p>在安装的最后一步：结束安装程序时，我的安装程序一直卡在了运行 symple-cdd 那一步，后来了解之后发现这是用于联网安装 Kali 工具包的程序，由于官网在国外网速太慢，一直卡在这一步。只要在安装时不进行网络配置便可跳过这一步</p>
+<h3 id="安装之后"><a href="#安装之后" class="headerlink" title="安装之后"></a>安装之后</h3><p>安装之后仍然有一些比较麻烦的事情： </p>
+<h5 id="安装-NVIDIA-显卡驱动"><a href="#安装-NVIDIA-显卡驱动" class="headerlink" title="安装 NVIDIA 显卡驱动"></a>安装 NVIDIA 显卡驱动</h5><p>由于 kali 的 nouveau 驱动不支持 NVIDIA 显卡，需要重新安装驱动</p>
+<ol>
+<li>先创建配置文件禁用 nouveau 驱动</li>
+<li>再在<a target="_blank" rel="noopener" href="https://www.nvidia.com/en-us/">NVIDIA 官网</a>下载 NVIDIA 显卡驱动文件</li>
+<li>安装与当前运行内核版本匹配的 linux-headers 和 kernel-source。<ol>
+<li>检查当前内核版本：</li>
+</ol>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">uname</span> -r</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装与当前内核匹配的 linux-headers:</li>
+</ol>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt install linux-headers-$(<span class="built_in">uname</span> -r)</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装内核源代码：</li>
+</ol>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt install linux-source</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>安装 DKMS :</li>
+</ol>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt install dkms</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>安装 NVIDIA 驱动并配置</li>
+</ol>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> ./NVIDIA-Linux-x86_64-&lt;version&gt;.run</span><br><span class="line">$ <span class="built_in">sudo</span> update-initramfs -u</span><br><span class="line">$ <span class="built_in">sudo</span> reboot</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="安装中文输入法"><a href="#安装中文输入法" class="headerlink" title="安装中文输入法"></a>安装中文输入法</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt install fcitx fcitx-google-pinyin</span><br></pre></td></tr></table></figure>
+
+<h5 id="启用蓝牙功能"><a href="#启用蓝牙功能" class="headerlink" title="启用蓝牙功能"></a>启用蓝牙功能</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> systemctl start bluetooth</span><br><span class="line">$ sodo systemctl <span class="built_in">enable</span> bluetooth</span><br></pre></td></tr></table></figure>
+
+<p>这样，kali 就能进行基本使用了，接下来还可以进行桌面环境的美化、各种工具的安装……</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://haoine.github.io">HaoIne</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://haoine.github.io/2025/02/10/double-system/">http://haoine.github.io/2025/02/10/double-system/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://haoine.github.io" target="_blank">HaoIne</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/study/">study</a></div><div class="post-share"><div class="social-share" data-image="/img/header.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/02/07/learning-http/" title="learning http"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-07</div><div class="info-item-2">learning http</div></div><div class="info-2"><div class="info-item-1">学习笔记 —— http 协议http 是什么？HTTP（超文本传输协议，HyperText Transfer Protocol）是一种用于分布式、协作式、超媒体信息系统的应用层协议。 HTTP 是万维网（WWW）的数据通信的基础，设计目的是确保客户端与服务器之间的通信，是互联网上最常用的协议之一。 HTTP 是一个基于 TCP&#x2F;IP 通信协议来传递数据的（HTML 文件、图片文件、查询结果等）。 设计 HTTP 最初的目的是为了提供一种发布和接收 HTML 页面的方法，通过 HTTP 或者 HTTPS 协议请求的资源由统一资源标识符（Uniform Resource Identifiers，URI）来标识。 http 的请求-响应模型建立连接-发送请求-处理请求-发送响应-关闭连接 建立请求：客户端与服务器之间建立连接。在传统的 HTTP 中，这是基于 TCP&#x2F;IP 协议的。最近的 HTTP&#x2F;2 和 HTTP&#x2F;3 则使用了更先进的传输层协议，例如基于 TCP 的二进制协议（HTTP&#x2F;2）或基于 UDP 的 QUIC...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/header.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">HaoIne</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/haoine/"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">My first blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-windows-%E5%92%8C-Kali-Linux-%E5%8F%8C%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.</span> <span class="toc-text">安装 windows 和 Kali Linux 双系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E5%85%88%EF%BC%8C%E4%B8%BA-kali-%E7%B3%BB%E7%BB%9F%E5%88%86%E5%87%BA%E4%B8%80%E9%83%A8%E5%88%86%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4"><span class="toc-number">1.1.</span> <span class="toc-text">首先，为 kali 系统分出一部分磁盘空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E8%A1%8C-Kali-Linux-%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text">进行 Kali Linux 的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">安装时的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E"><span class="toc-number">1.4.</span> <span class="toc-text">安装之后</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-NVIDIA-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">安装 NVIDIA 显卡驱动</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">安装中文输入法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E8%93%9D%E7%89%99%E5%8A%9F%E8%83%BD"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">启用蓝牙功能</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/10/double-system/" title="double system">double system</a><time datetime="2025-02-10T11:46:25.000Z" title="发表于 2025-02-10 19:46:25">2025-02-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/07/learning-http/" title="learning http">learning http</a><time datetime="2025-02-07T06:29:39.000Z" title="发表于 2025-02-07 14:29:39">2025-02-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/27/My-First-Blog/" title="My First Blog">My First Blog</a><time datetime="2025-01-27T13:15:55.000Z" title="发表于 2025-01-27 21:15:55">2025-01-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/24/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/" title="测试文章">测试文章</a><time datetime="2025-01-24T05:38:15.000Z" title="发表于 2025-01-24 13:38:15">2025-01-24</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By HaoIne</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
