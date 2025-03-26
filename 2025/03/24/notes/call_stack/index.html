@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png">
 <meta property="article:published_time" content="2025-03-24T04:37:03.000Z">
-<meta property="article:modified_time" content="2025-03-24T17:00:00.913Z">
+<meta property="article:modified_time" content="2025-03-26T10:59:16.421Z">
 <meta property="article:author" content="HaoIne">
 <meta property="article:tag" content="notes">
 <meta name="twitter:card" content="summary">
@@ -18,7 +18,7 @@
   "url": "http://haoine.github.io/2025/03/24/notes/call_stack/",
   "image": "http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png",
   "datePublished": "2025-03-24T04:37:03.000Z",
-  "dateModified": "2025-03-24T17:00:00.913Z",
+  "dateModified": "2025-03-26T10:59:16.421Z",
   "author": [
     {
       "@type": "Person",
@@ -159,39 +159,86 @@
   isHighlightShrink: false,
   isToc: false,
   pageType: 'post'
-}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/%E5%A4%B4%E5%83%8F.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">HaoIne</span></a><a class="nav-page-title" href="/"><span class="site-name">call_stack</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">call_stack</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-24T04:37:03.000Z" title="发表于 2025-03-24 12:37:03">2025-03-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-24T17:00:00.913Z" title="更新于 2025-03-25 01:00:00">2025-03-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/notes/">notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><ul>
-<li><p>IA-32 (Intel 32位) 寄存器<br>Note: 32 位说明栈中指针偏移量以 32位（4字节）为一个基元。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/464c83f7c368ce43c64581941d307ee6.png" alt="IA-32 Normally Used Register"></p>
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/%E5%A4%B4%E5%83%8F.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">HaoIne</span></a><a class="nav-page-title" href="/"><span class="site-name">call_stack</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">call_stack</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-24T04:37:03.000Z" title="发表于 2025-03-24 12:37:03">2025-03-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-26T10:59:16.421Z" title="更新于 2025-03-26 18:59:16">2025-03-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/notes/">notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><ul>
+<li><p><code>IA-32</code> (Intel 32位) 寄存器<br>Note: 32 位说明栈中指针偏移量以 32位（4字节）为一个基元。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/464c83f7c368ce43c64581941d307ee6.png" alt="IA-32 Normally Used Register"></p>
 <ul>
-<li>EAX ~ EDX: 通用寄存器 (general purpose registers)，<ul>
+<li><code>EAX</code> ~ <code>EDX</code>: 通用寄存器 (general purpose registers)，<ul>
 <li>通用寄存器是通用的，但是有一部分指令对寄存器有特殊要求，这时它们分别有如下用途：<ul>
-<li>EAX: 累加器 (“A” means Accumulator)</li>
-<li>EBX: 数据基地址暂存器 (“B” means Base)</li>
-<li>ECX: 循环计数器 (“C” means Counter)</li>
-<li>EDX: 操作数或操作结果暂存器 (“D” means Data)</li>
+<li><code>EAX</code>: 累加器 (“A” means Accumulator)</li>
+<li><code>EBX</code>: 数据基地址暂存器 (“B” means Base)</li>
+<li><code>ECX</code>: 循环计数器 (“C” means Counter)</li>
+<li><code>EDX</code>: 操作数或操作结果暂存器 (“D” means Data)</li>
 </ul>
 </li>
 <li>为了方便存储较短的数据，通用寄存器都可以只使用低16位</li>
 </ul>
 </li>
-<li>ESI 和 EDI: 这两个寄存器优势也被包括在通用寄存器内，但是不能拆分，一般用作字符串操作的源指针和目的指针。</li>
-<li>ESP 和 EBP: ESP 存储的是栈顶地址，即栈指针 (Stack Pointer)，而 EBP 存储的是位于栈顶部的栈帧的栈底地址，即基指针 (Base Pointer)</li>
+<li><code>ESI</code> 和 <code>EDI</code>: 这两个寄存器优势也被包括在通用寄存器内，但是不能拆分，一般用作字符串操作的源指针和目的指针。</li>
+<li><code>ESP</code> 和 <code>EBP</code>: <code>ESP</code> 存储的是栈顶地址，即栈指针 (Stack Pointer)，而 <code>EBP</code> 存储的是位于栈顶的栈帧的栈底地址，即基指针 (Base Pointer)</li>
 </ul>
 </li>
 <li><p>控制权移交</p>
 <ul>
-<li>控制权是指 CPU 执行指令的顺序</li>
-<li>当一个函数调用另一个函数时，CPU需要暂停当前函数的执行，转而去执行被调用函数。这个过程称为控制权移交。</li>
+<li>控制权是指 <code>CPU</code> 执行指令的顺序</li>
+<li>当一个函数调用另一个函数时，<code>CPU</code>需要暂停当前函数的执行，转而去执行被调用函数。这个过程称为控制权移交。</li>
 </ul>
 </li>
 <li><p>栈帧(Stack Frame)</p>
 <ul>
 <li>栈帧是堆栈的逻辑片段，当调用函数时逻辑栈帧被压入堆栈，当函数返回时逻辑栈帧被从堆栈中弹出。</li>
-<li>栈帧的边界：EBP (Extended Base Pointer 扩展基指针) 指向当前栈帧底部（高地址），在当前栈帧内位置固定；ESP (Extended Stack Pointer 扩展栈指针) 指向当前栈帧顶部（低地址），当程序执行时 ESP 随着数据的入栈和出栈而移动。</li>
+<li>栈帧的边界：<code>EBP</code> (Extended Base Pointer 扩展基指针) 指向当前栈帧底部（高地址），在当前栈帧内位置固定；<code>ESP</code> (Extended Stack Pointer 扩展栈指针) 指向当前栈帧顶部（低地址），当程序执行时 <code>ESP</code> 随着数据的入栈和出栈而移动。</li>
 </ul>
 </li>
 <li><p>函数调用栈 (Call Stack)</p>
 <ul>
-<li>函数调用栈的典型内存布局图：<br><img src="https://images0.cnblogs.com/i/569008/201405/271644419475745.jpg" alt="Classic Call Stack Memory Allocation Picture"><br>这是 caller function 和 callee function 的栈帧布局，”m(%ebp)” 表示以 EBP 为基地址、偏移量为 m 字节的内存空间（中的内容）。</li>
+<li>函数调用栈的典型内存布局图：<br><img src="https://images0.cnblogs.com/i/569008/201405/271644419475745.jpg" alt="Classic Call Stack Memory Allocation Picture"><br>这是 caller function 和 callee function 的栈帧布局，<code>m(%ebp)</code> 表示以 <code>EBP</code> 为基地址、偏移量为<code>m</code>字节的内存空间（中的内容）。</li>
+<li>函数序 (Prologue)：被调函数设置 EBP，并保存其希望不变的寄存器值；被调函数为局部变量分配栈帧空间，并存储。</li>
+<li>函数跋 (Epilogue)：释放为局部变量分配的栈空间；恢复函数序中希望保持不变的寄存器值，包括主调函数的 EBP；被调函数将控制权交还主调函数（使用<code>ret</code>指令），这一步可能也会将先前的参数从栈上清除。</li>
+</ul>
+</li>
+<li><p>堆栈操作</p>
+<ul>
+<li><p><code>push</code>： ESP 减小 4 个字节；将寄存器数据压入堆栈，从高到底按字节讲数据存入 ESP-1、ESP-2、ESP-3 指向的地址单元</p>
+</li>
+<li><p><code>pop</code>：从 ESP 指向的空间取回数据存入寄存器，ESP 增加 4 个字节。</p>
+</li>
+<li><p><code>call</code>：将当前的指令指针（EIP）压入栈，以备返回时恢复执行下一条指令；然后将 EIP 指向被调函数的代码开始处，跳转到被调函数的入口处执行。</p>
+</li>
+<li><p><code>leave</code>：恢复主调函数的栈帧。等价于：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">movl %ebp, %esp</span><br><span class="line">popl %ebp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ret</code>：在执行<code>leave</code>之后，从栈顶弹出返回地址（由<code>call</code>指令压入栈中的）到 EIP，转到返回地址继续执行</p>
+</li>
+</ul>
+</li>
+<li><p>函数调用约定：</p>
+<ul>
+<li><p>函数参数的传递顺序和方式：是通过栈传递还是通过寄存器与栈的组合传递</p>
+</li>
+<li><p>栈的维护方式：被调函数返回时压栈的参数是由被调函数清除还是由主调函数清除</p>
+</li>
+<li><p>名称修饰 (Name-mangling) 策略：编译器在链接时为区分不同函数，对函数名作不同修饰</p>
+</li>
+<li><p><code>x86</code>函数参数传递方法：<br>x86 处理器 ABI 规范规定，所有传递给被调函数的参数都通过堆栈完成，压栈顺序为以函数参数从右到左的顺序。这种方式使得被调函数通过<code>m(%ebp)</code>读取参数时反而是随<code>m</code>增大而顺序读取，支持不定数量参数的函数。</p>
+<ul>
+<li>整型和指针参数的传递相同，因为都是<code>32bit</code>，直接从右向左压栈。</li>
+<li>浮点参数的传递：浮点参数的传递于整型的类似，只是浮点数据占用<code>64bit</code>。</li>
+<li>结构体和联合体参数的传递：与整型的类似，但是注意数据对齐，占用字节数为 4 的倍数。</li>
+</ul>
+</li>
+<li><p><code>x86</code>函数返回值传递方法：</p>
+<ol>
+<li>若返回值<strong>不超过4字节</strong>，通常将其保存在<code>EAX</code>中，调用方通过<code>EAX</code>读取返回值。</li>
+<li>若返回值<strong>大于4字节而小于8字节</strong>，则通过<code>EAX+EDX</code>联合返回，<code>EAX</code>保存低字节，<code>EDX</code>保存高字节。</li>
+<li>若返回值为<strong>浮点类型</strong>，通过专用的协处理器浮点数寄存器的栈顶返回。</li>
+<li>若返回值为<strong>结构体或联合体</strong>，传递返回值的方法根据编译器的不同，平台的不同，调用约定的不同，甚至编译参数的不同而不同，一种常见的方式是：<ul>
+<li>在将被调函数的参数依次压栈之后再向栈中压入一个隐藏参数，它是用于保存返回结构体或联合体的一块栈空间的地址。</li>
+<li>若未定义用于接收返回值的变量，在栈上额外开辟一块空间作为接收返回值的临时变量</li>
+<li>被调函数将返回值拷贝到隐藏参数指向的内存空间，再将该地址存入<code>EAX</code>。</li>
+</ul>
+</li>
+</ol>
+</li>
 </ul>
 </li>
 </ul>
