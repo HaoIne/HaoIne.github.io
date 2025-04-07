@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Sequence | HaoIne</title><meta name="author" content="HaoIne"><meta name="copyright" content="HaoIne"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="I’m learning the CS_61A course since January 2024, but there was a long time I suspended the learning of this course to learn some other subjects like Algorithm and Data Structure, and pwn in CTF.   A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sequence">
+<meta property="og:url" content="http://haoine.github.io/2025/03/31/notes/python/CS_61A/Sequence/index.html">
+<meta property="og:site_name" content="HaoIne">
+<meta property="og:description" content="I’m learning the CS_61A course since January 2024, but there was a long time I suspended the learning of this course to learn some other subjects like Algorithm and Data Structure, and pwn in CTF.   A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png">
+<meta property="article:published_time" content="2025-03-31T11:36:56.000Z">
+<meta property="article:modified_time" content="2025-04-03T09:32:08.272Z">
+<meta property="article:author" content="HaoIne">
+<meta property="article:tag" content="notes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Sequence",
+  "url": "http://haoine.github.io/2025/03/31/notes/python/CS_61A/Sequence/",
+  "image": "http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png",
+  "datePublished": "2025-03-31T11:36:56.000Z",
+  "dateModified": "2025-04-03T09:32:08.272Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "HaoIne",
+      "url": "http://haoine.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://haoine.github.io/2025/03/31/notes/python/CS_61A/Sequence/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Sequence',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/%E5%A4%B4%E5%83%8F.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">HaoIne</span></a><a class="nav-page-title" href="/"><span class="site-name">Sequence</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Sequence</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-31T11:36:56.000Z" title="发表于 2025-03-31 19:36:56">2025-03-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-03T09:32:08.272Z" title="更新于 2025-04-03 17:32:08">2025-04-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/notes/">notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>I’m learning the CS_61A course since January 2024, but there was a long time I suspended the learning of this course to learn some other subjects like Algorithm and Data Structure, and pwn in CTF.  </p>
+<p>And now it’s time to continue the learning.  </p>
+<p>Sequences are a list of Data in a specific order such as queues, arrays and linked lists.</p>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>We should know that Python does not have a built-in array type (like C arrays) that’s available without importing a module. But there is a list type in Python similar to array in C.</p>
+<h3 id="Using-of-Lists"><a href="#Using-of-Lists" class="headerlink" title="Using of Lists"></a>Using of Lists</h3><ul>
+<li><p>Use the index to visit the elements:  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>odds = [<span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">49</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>odds[<span class="number">0</span>]</span><br><span class="line"><span class="number">43</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>odds[<span class="number">3</span>]</span><br><span class="line"><span class="number">42</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>odds[odds[<span class="number">3</span>] - odds[<span class="number">2</span>]]</span><br><span class="line"><span class="number">47</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Get the number of elements:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">len</span>(odds)</span><br><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Use the getitem function:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> operator <span class="keyword">import</span> getitem</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>getitem(odds, <span class="number">3</span>)</span><br><span class="line"><span class="number">49</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Concatenation and repetition:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>[<span class="number">2</span>, <span class="number">7</span>] + odds</span><br><span class="line">[<span class="number">2</span>, <span class="number">7</span>, <span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">49</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">2</span> * odds</span><br><span class="line">[<span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">49</span>, <span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">49</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> operator <span class="keyword">import</span> add, mul</span><br><span class="line">&gt;&gt; add([<span class="number">2</span>, <span class="number">7</span>], mul(odds, <span class="number">2</span>))</span><br><span class="line">[<span class="number">2</span>, <span class="number">7</span>, <span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">49</span>, <span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">49</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>nested lists</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>pairs = [[<span class="number">10</span>, <span class="number">20</span>], [<span class="number">30</span>, <span class="number">40</span>]]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pairs[<span class="number">1</span>]</span><br><span class="line">[<span class="number">30</span>, <span class="number">40</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pairs[<span class="number">1</span>][<span class="number">0</span>]</span><br><span class="line"><span class="number">30</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Containers"><a href="#Containers" class="headerlink" title="Containers"></a>Containers</h2><p>In Python, containers are objects that hold other objects, providing a way to organize and manage collections of data.<br>Some typical containers:  </p>
+<ul>
+<li>list</li>
+<li>tuple</li>
+<li>str</li>
+<li>dict</li>
+<li>set</li>
+</ul>
+<p>But here what we want to say about is not Container itself, but some using of containers.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>digits = [<span class="number">1</span>, <span class="number">8</span>, <span class="number">2</span>, <span class="number">8</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">1</span> <span class="keyword">in</span> digits</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">3</span> <span class="keyword">in</span> digits</span><br><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p>The emphasis is <code>in</code>, an operator between containers and elements. If the element is “in” the container, then this operation returns True, otherwise it’ll return False.  </p>
+<h2 id="For-Statements-–-the-Sequence-Iteration"><a href="#For-Statements-–-the-Sequence-Iteration" class="headerlink" title="For Statements – the Sequence Iteration"></a>For Statements – the Sequence Iteration</h2><p>In Python the For statement is a way of iterating over sequences.</p>
+<h3 id="Instance"><a href="#Instance" class="headerlink" title="Instance"></a>Instance</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">count</span>(<span class="params">s, value</span>):</span><br><span class="line">  <span class="string">&quot;&quot;&quot;Count the number of times that a value occurs in sequence s.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  &gt;&gt;&gt; count([1, 2, 3, 1, 2 ,1], 1)</span></span><br><span class="line"><span class="string">  3</span></span><br><span class="line"><span class="string">  &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">  total = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> element <span class="keyword">in</span> s:</span><br><span class="line">    <span class="keyword">if</span> element == value:</span><br><span class="line">      total++</span><br><span class="line">  <span class="keyword">return</span> total</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python3 -m doctest -v ex.py</span></span><br><span class="line">Trying:</span><br><span class="line">    count([1, 2, 3, 1, 2 ,1], 1)</span><br><span class="line">Expecting:</span><br><span class="line">    3</span><br><span class="line">ok</span><br><span class="line">1 items had no tests:</span><br><span class="line">    ex</span><br><span class="line">1 items passed all tests:</span><br><span class="line">    1 tests in ex.count</span><br><span class="line">1 tests in 2 items.</span><br><span class="line">1 passed and 0 failed.</span><br><span class="line">Test passed.</span><br></pre></td></tr></table></figure>
+
+<h3 id="Principle"><a href="#Principle" class="headerlink" title="Principle"></a>Principle</h3><ul>
+<li>How does <code>for statement</code> works?<ol>
+<li>Evaluate the header <code>expression</code> which must yield an iterable value (a sequence)</li>
+<li>For each element in that sequence, in order:</li>
+</ol>
+<ul>
+<li>a. Bind <code>name</code> to that element in the current frame  </li>
+<li>b. Execute the <code>suit</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="Extensional-Instance"><a href="#Extensional-Instance" class="headerlink" title="Extensional Instance"></a>Extensional Instance</h3><p>When we process with a sequence of fixed-length sequences, there could be several names of the fixed-length sequences.</p>
+<ul>
+<li>Unpack means reading the containers as several elements in it.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pairs = [[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">2</span>], [<span class="number">2</span>, <span class="number">3</span>], [<span class="number">3</span>, <span class="number">3</span>]]</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> pairs:</span><br><span class="line">  <span class="built_in">print</span>(x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x, y <span class="keyword">in</span> pairs:</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;[x, y] = [&#x27;</span>, x, <span class="string">&#x27;,&#x27;</span>, y, <span class="string">&#x27;]&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python ~/Downloads/test.py</span></span><br><span class="line">[1, 2]</span><br><span class="line">[2, 2]</span><br><span class="line">[2, 3]</span><br><span class="line">[3, 3]</span><br><span class="line">[x, y] = [ 1 , 2 ]</span><br><span class="line">[x, y] = [ 2 , 2 ]</span><br><span class="line">[x, y] = [ 2 , 3 ]</span><br><span class="line">[x, y] = [ 3 , 3 ]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Notice: the number of name in <code>for statement</code> could only be one or equals to the length of the fixed-length sequences.</li>
+</ul>
+<h2 id="Range"><a href="#Range" class="headerlink" title="Range"></a>Range</h2><p>A range is a sequence of consecutive integers.*<br>  <code>..., -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5,...</code></p>
+<ul>
+<li>the length of range: <code>ending value</code> - <code>starting value</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">range</span>(-<span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line"><span class="built_in">range</span>(-<span class="number">2</span>, <span class="number">2</span>)    <span class="comment"># This is a range, not a list, so the output is repetition of your input.</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">list</span>(<span class="built_in">range</span>(-<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">[-<span class="number">2</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>]    <span class="comment"># Function list() turns the range into a list.</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">4</span>))</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+
+<p>Like what you see above, list is a built-in function of Python that turns a sequence into the form of list. So it could turns the range into a list and print it out.  </p>
+<p>It’s easy to find that:</p>
+<ul>
+<li>a range include it’s first element, but exclude it’s last element.</li>
+<li>if there is only one param for range, the range start from 0, and it’s length would be the param.</li>
+</ul>
+<h3 id="Using"><a href="#Using" class="headerlink" title="Using"></a>Using</h3><p>With Range types, we could do like this:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sum_below</span>(<span class="params">n</span>):</span><br><span class="line">  total = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">    total += i</span><br><span class="line">  <span class="keyword">return</span> total</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python -i ex.py</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; sum_below(5)</span></span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+
+<p>And this:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">cheer</span>():</span><br><span class="line">  <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):    <span class="comment"># This element in range is only used to control the rounds of the iteration, so we use &#x27;_&#x27; to replace it.</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Go Bears!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python -i ex.py</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; cheer()</span></span><br><span class="line">Go Bears!</span><br><span class="line">Go Bears!</span><br><span class="line">Go Bears!</span><br></pre></td></tr></table></figure>
+
+<h2 id="List-Comprehension"><a href="#List-Comprehension" class="headerlink" title="List Comprehension"></a>List Comprehension</h2><p>A List Comprehension, from my perspective, is just an special expression values to a list.</p>
+<p>In Chinese, <code>List Comprehension</code> is usually translated to:</p>
+<ul>
+<li>列表推导式（最常用）</li>
+<li>列表解析式</li>
+<li>列表生成式</li>
+</ul>
+<h3 id="The-Grammar-of-List-Comprehension"><a href="#The-Grammar-of-List-Comprehension" class="headerlink" title="The Grammar of List Comprehension"></a>The Grammar of List Comprehension</h3><p><code>[expression for item in iterable if condition]</code></p>
+<ul>
+<li><code>expression</code>: just an expression of item.</li>
+<li><code>for item in iterable</code>: Iterates over the iterable.</li>
+<li><code>if condition</code> <em>(optional)</em>: Filters items base on a condition.</li>
+</ul>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>[x+<span class="number">1</span> <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]]</span><br><span class="line">[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>[x <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>] <span class="keyword">if</span> <span class="number">25</span> % x == <span class="number">0</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="Using-1"><a href="#Using-1" class="headerlink" title="Using"></a>Using</h3><p>With List Comprehension, now we could do like this:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">divisors</span>(<span class="params">n</span>):</span><br><span class="line">  <span class="keyword">return</span> [<span class="number">1</span>] + [x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n) <span class="keyword">if</span> n % x == <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python -i ex.py</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; divisors(1)</span></span><br><span class="line">[1]</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; divisors(12)</span></span><br><span class="line">[1, 2, 3, 4, 6]</span><br></pre></td></tr></table></figure>
+
+<h2 id="Lists-Slices-Recursion"><a href="#Lists-Slices-Recursion" class="headerlink" title="Lists, Slices &amp; Recursion"></a>Lists, Slices &amp; Recursion</h2><p>For any list s, the expression <code>s[1:]</code> is called a slice from index 1 to the end (ro 1 onward).</p>
+<ul>
+<li>The value of <code>s[1:]</code> is a list whose length is one less thant the length of s</li>
+<li>Slicing s doesn’t affect s</li>
+</ul>
+<h3 id="Recursion-Example"><a href="#Recursion-Example" class="headerlink" title="Recursion Example"></a>Recursion Example</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Compute the sum of elements in a list.</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sum_list</span>(<span class="params">s</span>):</span><br><span class="line">  <span class="keyword">if</span> <span class="built_in">len</span>(s) == <span class="number">0</span>:</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">return</span> s[<span class="number">0</span>] + s[<span class="number">1</span>:]</span><br></pre></td></tr></table></figure>
+
+<p>Here is a more complex example, it’s a function which takes a list of positive numbers <code>s</code> and a non-negative number <code>n</code>. It retuens the sublist of <code>s</code> with the largest sum that is less than or equal to <code>n</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">large</span>(<span class="params">s, n</span>):</span><br><span class="line">  <span class="keyword">if</span> s == []:</span><br><span class="line">    <span class="keyword">return</span> []</span><br><span class="line">  <span class="keyword">elif</span> s[<span class="number">0</span>] &gt; n:</span><br><span class="line">    <span class="keyword">return</span> large(s[<span class="number">1</span>:], n)</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    first = s[<span class="number">0</span>]</span><br><span class="line">    with_s0 = [first] + large(s[<span class="number">1</span>:], n - first)</span><br><span class="line">    without_s0 = large(s[<span class="number">1</span>:], n)</span><br><span class="line">    <span class="keyword">if</span>(sum_list(with_s0) &gt; sum_list(without_s0)):</span><br><span class="line">      <span class="keyword">return</span> with_s0</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="keyword">return</span> without_s0</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://HaoIne.github.io">HaoIne</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://haoine.github.io/2025/03/31/notes/python/CS_61A/Sequence/">http://haoine.github.io/2025/03/31/notes/python/CS_61A/Sequence/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://HaoIne.github.io" target="_blank">HaoIne</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/notes/">notes</a></div><div class="post-share"><div class="social-share" data-image="/img/%E5%A4%B4%E5%83%8F.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/03/31/notes/What_is_ELF/" title="What_is_ELF"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">What_is_ELF</div></div><div class="info-2"><div class="info-item-1">I always see ELF in some passages. And now it’s time to deeply see what it is.   ELF actually is Executable and Linkable Format. Yes, it’s a format for file (specifically for binary file such as Executable Program, Object Code and Shared Library Files)   ELF 文件的类型 可重定位文件 (Relocatable File), 包含有编译器生成的代码以及数据。链接器会将它与其它目标文件链接起来从而创建可执行文件或者共享目标文件。这种文件的后缀一般是.o 可执行文件 (Executable File), 就是我们通常在 Linux 中执行的程序。 共享目标文件 (Shared Object File), 也叫共享库文件，包含代码和数据，这种文件是我们所称的库文件，一般以.so结尾。一般情况下，它会有以下两种使用情景： 链接器...</div></div></div></a><a class="pagination-related" href="/2025/04/03/config-the-IA-32-utils-for-arch/" title="config the IA-32 utils for arch"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">config the IA-32 utils for arch</div></div><div class="info-2"><div class="info-item-1">在 Arch Linux 上运行和调试 32 位程序需要安装 32 位兼容库和必要的工具链。由于 Arch Linux 默认不启用 multilib (32位兼容支持), 你需要手动配置。 启用 multilib 仓库 修改 /etc/pacman.conf  1$ sudo vim /etc/pacman.conf  找到下面这一行，并取消注释 12[multilib]Include = /etc/pacman.d/mirrorlist  然后再更新软件包数据库： 1$ sudo pacman -Sy  安装32位运行环境 安装32位基础库  1$ sudo pacman -S lib32-glibc lib32-gcc-libs   安装32位调试工具  1$ sudo pacman -S gdb-multilib </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/03/24/notes/pwn/call_stack/" title="call_stack"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-24</div><div class="info-item-2">call_stack</div></div><div class="info-2"><div class="info-item-1"> IA-32 (Intel 32位) 寄存器Note: 32 位说明栈中指针偏移量以 32位（4字节）为一个基元。  EAX ~ EDX: 通用寄存器 (general purpose registers)， 通用寄存器是通用的，但是有一部分指令对寄存器有特殊要求，这时它们分别有如下用途： EAX: 累加器 (“A” means Accumulator) EBX: 数据基地址暂存器 (“B” means Base) ECX: 循环计数器 (“C” means Counter) EDX: 操作数或操作结果暂存器 (“D” means Data)   为了方便存储较短的数据，通用寄存器都可以只使用低16位   ESI 和 EDI: 这两个寄存器优势也被包括在通用寄存器内，但是不能拆分，一般用作字符串操作的源指针和目的指针。 ESP 和 EBP: ESP 存储的是栈顶地址，即栈指针 (Stack Pointer)，而 EBP 存储的是位于栈顶的栈帧的栈底地址，即基指针 (Base Pointer)   控制权移交  控制权是指 CPU...</div></div></div></a><a class="pagination-related" href="/2025/04/06/notes/pwn/Dependencies/Compile/" title="Compile"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-06</div><div class="info-item-2">Compile</div></div><div class="info-2"><div class="info-item-1">编译是将源代码变成可执行程序的过程，这个过程可以分为以下步骤：  预处理 编译 汇编 链接  下面以gcc为例解释每个阶段 预处理阶段 预处理阶段主要是处理源代码中以’#’开始的预处理指令，将其转换后直接插入程序文本中，得到另一个C源码，通常以”.i”作为文件扩展名。    例如此时有一个文件 hello.c: 12345#include &lt;stdio.h&gt;int main(void) &#123;  printf(&quot;hello world&quot;);  return 0;&#125;  1$ gcc -E hello.c -o hello.i  简单来说预处理阶段的一些处理规则如下：  递归处理 #include 命令，将对应文件的内容复制到该指令所在的位置 删除所有的 #define 命令，并替换为对应的宏 处理所有的条件预处理指令，比如” #if, #ifdef, #endif...</div></div></div></a><a class="pagination-related" href="/2025/04/06/notes/pwn/Dependencies/Linking/" title="Linking"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-06</div><div class="info-item-2">Linking</div></div><div class="info-2"><div class="info-item-1">什么是链接呢？链接就是把多个目标文件、库文件组合成一个可执行文件（或共享库、静态库）的过程。链接分为两类：  静态链接：直接把库代码复制进可执行文件 动态链接：程序运行的时候加载共享库  链接时主要解决的问题：  符号解析 (Symbol Resolution) 地址和段重定位 (Relocation)  </div></div></div></a><a class="pagination-related" href="/2025/03/29/notes/pwn/Stack_Overflow/ROP/ret2shellcode/" title="ret2shellcode.md"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-29</div><div class="info-item-2">ret2shellcode.md</div></div><div class="info-2"><div class="info-item-1">After learning ret2text, here comes the ret2shellcode.ret2text的前提是程序中包含了系统调用shell的代码，只要直接覆盖返回地址到敏感代码就可以直接getshell了，但是实际上基本没有什么程序会包含这样的敏感代码，而这时候就需要自己去构造敏感代码了。 前提 程序中存在栈溢出漏洞，没有开启canary保护，并且溢出大小合适，能够让我们注入shellcode并覆盖返回地址。 由于我们要向程序中注入shellcode并且执行，所以要求程序中包含可读可写可执行的片段，比如没有开启NX (No eXecutable)保护的栈帧片段。  Implementation (只介绍在栈帧中注入shellcode的情况)准备shellcode最简单的shellcode就是execve(&#39;/bin/sh&#39;, NULL,...</div></div></div></a><a class="pagination-related" href="/2025/03/29/notes/pwn/Stack_Overflow/ROP/ret2text/" title="ret2text.md"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-29</div><div class="info-item-2">ret2text.md</div></div><div class="info-2"><div class="info-item-1">参考网站：CTF Wiki ret2text 是最简单的利用栈溢出漏洞来getshell的方法，这种方法就是利用程序中已经有的敏感命令比如system(&#39;/bin/sh&#39;)来getshell 前提 程序存在栈溢出，并且溢出大小合适，能够覆盖函数返回地址。 程序中存在敏感命令的调用，我们能够获取其地址。 程序没有开启canary保护，栈溢出可以被利用。  Implementation 找到敏感命令system(&#39;/bin/sh&#39;)的地址 计算esp到返回地址的偏移量，构造payload覆盖返回地址为敏感命令的地址 运行程序，getshell  Template1234567from pwn import *context.binary = elf = ELF(&#x27;./vuln&#x27;)context.log_level = &#x27;debug&#x27;p = remote(&#x27;ip&#x27;, port)payload = &lt;padding&gt; + &lt;loc of vulnerable...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">HaoIne</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" href="https://github.com/HaoIne/"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#List"><span class="toc-number">1.</span> <span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-of-Lists"><span class="toc-number">1.1.</span> <span class="toc-text">Using of Lists</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Containers"><span class="toc-number">2.</span> <span class="toc-text">Containers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#For-Statements-%E2%80%93-the-Sequence-Iteration"><span class="toc-number">3.</span> <span class="toc-text">For Statements – the Sequence Iteration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Instance"><span class="toc-number">3.1.</span> <span class="toc-text">Instance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Principle"><span class="toc-number">3.2.</span> <span class="toc-text">Principle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Extensional-Instance"><span class="toc-number">3.3.</span> <span class="toc-text">Extensional Instance</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Range"><span class="toc-number">4.</span> <span class="toc-text">Range</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Using"><span class="toc-number">4.1.</span> <span class="toc-text">Using</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List-Comprehension"><span class="toc-number">5.</span> <span class="toc-text">List Comprehension</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Grammar-of-List-Comprehension"><span class="toc-number">5.1.</span> <span class="toc-text">The Grammar of List Comprehension</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example"><span class="toc-number">5.2.</span> <span class="toc-text">Example</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-1"><span class="toc-number">5.3.</span> <span class="toc-text">Using</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lists-Slices-Recursion"><span class="toc-number">6.</span> <span class="toc-text">Lists, Slices &amp; Recursion</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Recursion-Example"><span class="toc-number">6.1.</span> <span class="toc-text">Recursion Example</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/06/notes/pwn/Dependencies/Compile/" title="Compile">Compile</a><time datetime="2025-04-06T12:40:44.000Z" title="发表于 2025-04-06 20:40:44">2025-04-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/06/notes/pwn/Dependencies/Linking/" title="Linking">Linking</a><time datetime="2025-04-06T12:23:50.000Z" title="发表于 2025-04-06 20:23:50">2025-04-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/03/config-the-IA-32-utils-for-arch/" title="config the IA-32 utils for arch">config the IA-32 utils for arch</a><time datetime="2025-04-03T12:22:53.000Z" title="发表于 2025-04-03 20:22:53">2025-04-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/03/31/notes/python/CS_61A/Sequence/" title="Sequence">Sequence</a><time datetime="2025-03-31T11:36:56.000Z" title="发表于 2025-03-31 19:36:56">2025-03-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/03/31/notes/What_is_ELF/" title="What_is_ELF">What_is_ELF</a><time datetime="2025-03-31T09:22:41.000Z" title="发表于 2025-03-31 17:22:41">2025-03-31</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By HaoIne</div><div class="framework-info"><span>框架 </span><a href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
