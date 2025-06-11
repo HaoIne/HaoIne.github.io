@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>线代笔记.md | HaoIne</title><meta name="author" content="HaoIne"><meta name="copyright" content="HaoIne"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="行列式的变换 行列式的计算三角形行列式的计算三角形行列式很好算，结果就等于主对角线的乘积。 范德蒙行列式的计算范德蒙行列式的结果就等于公比元素作差再相乘。并且这个作差是后边的减去前边的。 爪形行列式的计算爪形行列式通常化为三角形行列式进行计算。 一种与余子式有关的特殊题型 利用拆和的方法计算行列式 利用拉普拉斯公式计算行列式 矩阵矩阵的乘法矩阵乘法取第一个矩阵的行和第二个矩阵的列注意： 抽象矩阵求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线代笔记.md">
+<meta property="og:url" content="http://haoine.github.io/2025/06/10/notes/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E4%BB%A3%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="HaoIne">
+<meta property="og:description" content="行列式的变换 行列式的计算三角形行列式的计算三角形行列式很好算，结果就等于主对角线的乘积。 范德蒙行列式的计算范德蒙行列式的结果就等于公比元素作差再相乘。并且这个作差是后边的减去前边的。 爪形行列式的计算爪形行列式通常化为三角形行列式进行计算。 一种与余子式有关的特殊题型 利用拆和的方法计算行列式 利用拉普拉斯公式计算行列式 矩阵矩阵的乘法矩阵乘法取第一个矩阵的行和第二个矩阵的列注意： 抽象矩阵求">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png">
+<meta property="article:published_time" content="2025-06-10T02:51:49.000Z">
+<meta property="article:modified_time" content="2025-06-11T06:19:57.753Z">
+<meta property="article:author" content="HaoIne">
+<meta property="article:tag" content="maths">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "线代笔记.md",
+  "url": "http://haoine.github.io/2025/06/10/notes/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E4%BB%A3%E7%AC%94%E8%AE%B0/",
+  "image": "http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png",
+  "datePublished": "2025-06-10T02:51:49.000Z",
+  "dateModified": "2025-06-11T06:19:57.753Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "HaoIne",
+      "url": "http://haoine.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://haoine.github.io/2025/06/10/notes/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E4%BB%A3%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '线代笔记.md',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/%E5%A4%B4%E5%83%8F.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">HaoIne</span></a><a class="nav-page-title" href="/"><span class="site-name">线代笔记.md</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">线代笔记.md</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-10T02:51:49.000Z" title="发表于 2025-06-10 10:51:49">2025-06-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-11T06:19:57.753Z" title="更新于 2025-06-11 14:19:57">2025-06-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/notes/">notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="行列式的变换"><a href="#行列式的变换" class="headerlink" title="行列式的变换"></a>行列式的变换</h2><p><a href="https://imgse.com/i/pVF5ob8"><img src="https://s21.ax1x.com/2025/06/10/pVF5ob8.png" alt="pVF5ob8.png"></a></p>
+<h2 id="行列式的计算"><a href="#行列式的计算" class="headerlink" title="行列式的计算"></a>行列式的计算</h2><h3 id="三角形行列式的计算"><a href="#三角形行列式的计算" class="headerlink" title="三角形行列式的计算"></a>三角形行列式的计算</h3><p>三角形行列式很好算，结果就等于主对角线的乘积。<br><a href="https://imgse.com/i/pVF5fgI"><img src="https://s21.ax1x.com/2025/06/10/pVF5fgI.png" alt="pVF5fgI.png"></a></p>
+<h3 id="范德蒙行列式的计算"><a href="#范德蒙行列式的计算" class="headerlink" title="范德蒙行列式的计算"></a>范德蒙行列式的计算</h3><p>范德蒙行列式的结果就等于公比元素作差再相乘。并且这个作差是后边的减去前边的。<br><a href="https://imgse.com/i/pVFIDRs"><img src="https://s21.ax1x.com/2025/06/10/pVFIDRs.png" alt="pVFIDRs.png"></a></p>
+<h3 id="爪形行列式的计算"><a href="#爪形行列式的计算" class="headerlink" title="爪形行列式的计算"></a>爪形行列式的计算</h3><p>爪形行列式通常化为三角形行列式进行计算。<br><a href="https://imgse.com/i/pVFI5W9"><img src="https://s21.ax1x.com/2025/06/10/pVFI5W9.png" alt="pVFI5W9.png"></a></p>
+<h3 id="一种与余子式有关的特殊题型"><a href="#一种与余子式有关的特殊题型" class="headerlink" title="一种与余子式有关的特殊题型"></a>一种与余子式有关的特殊题型</h3><p><a href="https://imgse.com/i/pVFITQ1"><img src="https://s21.ax1x.com/2025/06/10/pVFITQ1.png" alt="pVFITQ1.png"></a></p>
+<h3 id="利用拆和的方法计算行列式"><a href="#利用拆和的方法计算行列式" class="headerlink" title="利用拆和的方法计算行列式"></a>利用拆和的方法计算行列式</h3><p><a href="https://imgse.com/i/pVFIqeK"><img src="https://s21.ax1x.com/2025/06/10/pVFIqeK.png" alt="pVFIqeK.png"></a></p>
+<h3 id="利用拉普拉斯公式计算行列式"><a href="#利用拉普拉斯公式计算行列式" class="headerlink" title="利用拉普拉斯公式计算行列式"></a>利用拉普拉斯公式计算行列式</h3><p><a href="https://imgse.com/i/pVFo9yt"><img src="https://s21.ax1x.com/2025/06/10/pVFo9yt.png" alt="pVFo9yt.png"></a></p>
+<h2 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h2><h3 id="矩阵的乘法"><a href="#矩阵的乘法" class="headerlink" title="矩阵的乘法"></a>矩阵的乘法</h3><p>矩阵乘法取第一个矩阵的行和第二个矩阵的列<br><a href="https://imgse.com/i/pVFoCOP"><img src="https://s21.ax1x.com/2025/06/10/pVFoCOP.png" alt="pVFoCOP.png"></a><br>注意：<br><a href="https://imgse.com/i/pVFoief"><img src="https://s21.ax1x.com/2025/06/10/pVFoief.png" alt="pVFoief.png"></a></p>
+<h3 id="抽象矩阵求逆矩阵"><a href="#抽象矩阵求逆矩阵" class="headerlink" title="抽象矩阵求逆矩阵"></a>抽象矩阵求逆矩阵</h3><p><a href="https://imgse.com/i/pVFomSs"><img src="https://s21.ax1x.com/2025/06/10/pVFomSs.png" alt="pVFomSs.png"></a></p>
+<h3 id="数字型矩阵求逆"><a href="#数字型矩阵求逆" class="headerlink" title="数字型矩阵求逆"></a>数字型矩阵求逆</h3><p>对于较小的矩阵如二阶方阵，一般使用伴随矩阵法直接秒，而高阶方阵一般都使用初等行变换法，通过构造增广矩阵并进行初等变换来提取逆矩阵。<br><a href="https://imgse.com/i/pVFolwT"><img src="https://s21.ax1x.com/2025/06/10/pVFolwT.png" alt="pVFolwT.png"></a>  </p>
+<h3 id="求解矩阵方程"><a href="#求解矩阵方程" class="headerlink" title="求解矩阵方程"></a>求解矩阵方程</h3><p>只要一步步解就行了</p>
+<h3 id="方阵的行列式"><a href="#方阵的行列式" class="headerlink" title="方阵的行列式"></a>方阵的行列式</h3><p>这里主要讲几个公式：</p>
+<h3 id="矩阵的秩"><a href="#矩阵的秩" class="headerlink" title="矩阵的秩"></a>矩阵的秩</h3><ul>
+<li>行阶梯型矩阵就是每一行的第一个非零元素所在的列都比下一行的第一个非零元素所在的列更靠前。<br>设 A 为一个矩阵，那么通过初等行变换将矩阵 A 转化为行阶梯型矩阵 B 之后，矩阵 B 中非零行的个数即位矩阵 A 的秩的值。</li>
+</ul>
+<h2 id="向量组的线性相关性"><a href="#向量组的线性相关性" class="headerlink" title="向量组的线性相关性"></a>向量组的线性相关性</h2><h3 id="判断数字型向量组的线性相关性"><a href="#判断数字型向量组的线性相关性" class="headerlink" title="判断数字型向量组的线性相关性"></a>判断数字型向量组的线性相关性</h3><p>多个向量组成的向量组 线性相关,等价于这个向量组组成的方阵的行列式等于零，或者这个向量组组成的矩阵 的秩 小于向量组中 向量的个数。</p>
+<p>还有一些定理：</p>
+<ul>
+<li>向量组中向量的<strong>个数大于维数</strong>则相关</li>
+<li>如果向量组中有<strong>部分相关则整组相关</strong></li>
+</ul>
+<h3 id="判断抽象型向量组的线性相关性"><a href="#判断抽象型向量组的线性相关性" class="headerlink" title="判断抽象型向量组的线性相关性"></a>判断抽象型向量组的线性相关性</h3><p>我们要学会把一个由复杂向量组组成的矩阵拆解成一个由简单向量组组成的矩阵与另一个矩阵相乘的形式.<br>记住一个结论：</p>
+<ul>
+<li>无关组×可逆阵 -&gt; 无关组</li>
+<li>无关组×不可逆阵 -&gt; 相关组</li>
+</ul>
+<h3 id="求向量组的秩和最大无关组"><a href="#求向量组的秩和最大无关组" class="headerlink" title="求向量组的秩和最大无关组"></a>求向量组的秩和最大无关组</h3><ul>
+<li>向量组的秩就等于由该向量组组成的矩阵的秩。</li>
+<li>向量组的最大无关组可以直接取由该向量组组成的矩阵经过初等行变换形成的行阶梯型矩阵中拐弯处所在的列向量。</li>
+</ul>
+<h2 id="线性方程组"><a href="#线性方程组" class="headerlink" title="线性方程组"></a>线性方程组</h2><h3 id="齐次方程组-A-x-0-的求解"><a href="#齐次方程组-A-x-0-的求解" class="headerlink" title="齐次方程组 A*x&#x3D;0 的求解"></a>齐次方程组 A*x&#x3D;0 的求解</h3><ul>
+<li>如果系数矩阵的秩等于未知数个数，则方程只有零解（唯一解）</li>
+<li>如果系数矩阵的秩小于未知数个数，则方程有非零解（无穷解）</li>
+</ul>
+<h4 id="基础解系"><a href="#基础解系" class="headerlink" title="基础解系"></a>基础解系</h4><p>当方程有无穷解时，解集的最大无关组称为基础解系，基础解系所含解向量的个数等于未知数的个数减去系数矩阵的秩</p>
+<ul>
+<li>基础解系的求法：  <ol>
+<li>把系数阵化为行最简形（阶梯下面的元素全为零，拐角处的元素全为一）</li>
+<li>将第一步得到的行最简形阵当作系数阵，写出一个齐次方程组，这是原方程组的同解方程组。</li>
+<li>由同解方程组根据自由变量的数量，可以用自由变量表示其它变量，并写出由所有变量的值组成的解向量</li>
+<li>拆解解向量，可以将其拆解为基础解系</li>
+</ol>
+</li>
+</ul>
+<h4 id="通解"><a href="#通解" class="headerlink" title="通解"></a>通解</h4><p>通解即为基础解系的线性组合.</p>
+<h3 id="非齐次方程组-A-x-b-的求解"><a href="#非齐次方程组-A-x-b-的求解" class="headerlink" title="非齐次方程组 A*x&#x3D;b 的求解"></a>非齐次方程组 A*x&#x3D;b 的求解</h3><ul>
+<li><p>如果系数矩阵的秩不等于增广矩阵的秩，则方程无解</p>
+</li>
+<li><p>如果系数矩阵的秩等于增广矩阵的秩</p>
+<ul>
+<li>小于未知数个数，则方程有无穷解。</li>
+<li>等于未知数个数，则方程有唯一解。</li>
+</ul>
+</li>
+<li><p>非齐次方程组的通解 &#x3D; 齐次方程组的通解 + 非齐次方程组的特解</p>
+</li>
+<li><p>求通解的具体步骤：</p>
+<ol>
+<li>求出齐次方程组的基础解系，线性组合得到齐次方程组的通解</li>
+<li>按照求基础解系的方法取得非齐次方程组的特解</li>
+<li>把两者相加</li>
+</ol>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://HaoIne.github.io">HaoIne</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://haoine.github.io/2025/06/10/notes/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E4%BB%A3%E7%AC%94%E8%AE%B0/">http://haoine.github.io/2025/06/10/notes/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E4%BB%A3%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://HaoIne.github.io" target="_blank">HaoIne</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/maths/">maths</a></div><div class="post-share"><div class="social-share" data-image="/img/%E5%A4%B4%E5%83%8F.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/05/29/notes/%E6%95%B0%E5%AD%A6/%E9%AB%98%E6%95%B0%E4%B8%8B%E7%AC%94%E8%AE%B0/" title="高数下笔记.md"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">高数下笔记.md</div></div><div class="info-2"><div class="info-item-1">多元函数微分学二重极限的计算二重极限有这么几个计算方法：  对于非零元素可直接带入得到极限 对于整体元素，可以还原变成一元极限计算 对于0元素，可以使用等价无穷小替换  偏导数的计算一阶偏导数 一般情况：直接将其它变量当作常量进行求导即可  复合函数求偏导：链式法则，同枝相乘，异枝相加   二阶偏导数直接先求一阶导，再求二阶导就行了 多元函数全微分全微分就是函数关于各个自变量的偏导与自变量的微分之积的和  多元隐函数的偏导数直接对方程两遍同时求偏导再解方程即可，与一元隐函数求导的方法相同。 多元函数求极值 条件极值&#x2F;最值使用拉格朗日乘数法：  二重积分非圆周区域上二重积分的计算首先确定积分区域的类型，x 型区域先积 y 再积 x；y 型区域先积 x 再积 y。  特殊情况有时候会遇到一些不可积函数，但是可能是对 y 不可积，但是对 x 却可积。在这种情况的题目中，一般都是可以选 x 型区域，也可以选择 y 型区域。这时候我们就要注意这种情况进行合理的区域类型选取。 example: 圆周相关区域上二重积分的计算当积分区域与圆有关，或者北极函数含有 $x^2 +...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">HaoIne</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" href="https://github.com/HaoIne/"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%88%97%E5%BC%8F%E7%9A%84%E5%8F%98%E6%8D%A2"><span class="toc-number">1.</span> <span class="toc-text">行列式的变换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%88%97%E5%BC%8F%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">2.</span> <span class="toc-text">行列式的计算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E8%A7%92%E5%BD%A2%E8%A1%8C%E5%88%97%E5%BC%8F%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">2.1.</span> <span class="toc-text">三角形行列式的计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8C%83%E5%BE%B7%E8%92%99%E8%A1%8C%E5%88%97%E5%BC%8F%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">2.2.</span> <span class="toc-text">范德蒙行列式的计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%88%AA%E5%BD%A2%E8%A1%8C%E5%88%97%E5%BC%8F%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">2.3.</span> <span class="toc-text">爪形行列式的计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E7%A7%8D%E4%B8%8E%E4%BD%99%E5%AD%90%E5%BC%8F%E6%9C%89%E5%85%B3%E7%9A%84%E7%89%B9%E6%AE%8A%E9%A2%98%E5%9E%8B"><span class="toc-number">2.4.</span> <span class="toc-text">一种与余子式有关的特殊题型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%8B%86%E5%92%8C%E7%9A%84%E6%96%B9%E6%B3%95%E8%AE%A1%E7%AE%97%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="toc-number">2.5.</span> <span class="toc-text">利用拆和的方法计算行列式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E5%85%AC%E5%BC%8F%E8%AE%A1%E7%AE%97%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="toc-number">2.6.</span> <span class="toc-text">利用拉普拉斯公式计算行列式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5"><span class="toc-number">3.</span> <span class="toc-text">矩阵</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E4%B9%98%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">矩阵的乘法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%BD%E8%B1%A1%E7%9F%A9%E9%98%B5%E6%B1%82%E9%80%86%E7%9F%A9%E9%98%B5"><span class="toc-number">3.2.</span> <span class="toc-text">抽象矩阵求逆矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E5%9E%8B%E7%9F%A9%E9%98%B5%E6%B1%82%E9%80%86"><span class="toc-number">3.3.</span> <span class="toc-text">数字型矩阵求逆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%82%E8%A7%A3%E7%9F%A9%E9%98%B5%E6%96%B9%E7%A8%8B"><span class="toc-number">3.4.</span> <span class="toc-text">求解矩阵方程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E9%98%B5%E7%9A%84%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="toc-number">3.5.</span> <span class="toc-text">方阵的行列式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E7%A7%A9"><span class="toc-number">3.6.</span> <span class="toc-text">矩阵的秩</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E7%BB%84%E7%9A%84%E7%BA%BF%E6%80%A7%E7%9B%B8%E5%85%B3%E6%80%A7"><span class="toc-number">4.</span> <span class="toc-text">向量组的线性相关性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%95%B0%E5%AD%97%E5%9E%8B%E5%90%91%E9%87%8F%E7%BB%84%E7%9A%84%E7%BA%BF%E6%80%A7%E7%9B%B8%E5%85%B3%E6%80%A7"><span class="toc-number">4.1.</span> <span class="toc-text">判断数字型向量组的线性相关性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%8A%BD%E8%B1%A1%E5%9E%8B%E5%90%91%E9%87%8F%E7%BB%84%E7%9A%84%E7%BA%BF%E6%80%A7%E7%9B%B8%E5%85%B3%E6%80%A7"><span class="toc-number">4.2.</span> <span class="toc-text">判断抽象型向量组的线性相关性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%82%E5%90%91%E9%87%8F%E7%BB%84%E7%9A%84%E7%A7%A9%E5%92%8C%E6%9C%80%E5%A4%A7%E6%97%A0%E5%85%B3%E7%BB%84"><span class="toc-number">4.3.</span> <span class="toc-text">求向量组的秩和最大无关组</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84"><span class="toc-number">5.</span> <span class="toc-text">线性方程组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BD%90%E6%AC%A1%E6%96%B9%E7%A8%8B%E7%BB%84-A-x-0-%E7%9A%84%E6%B1%82%E8%A7%A3"><span class="toc-number">5.1.</span> <span class="toc-text">齐次方程组 A*x&#x3D;0 的求解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%A7%A3%E7%B3%BB"><span class="toc-number">5.1.1.</span> <span class="toc-text">基础解系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%A7%A3"><span class="toc-number">5.1.2.</span> <span class="toc-text">通解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E9%BD%90%E6%AC%A1%E6%96%B9%E7%A8%8B%E7%BB%84-A-x-b-%E7%9A%84%E6%B1%82%E8%A7%A3"><span class="toc-number">5.2.</span> <span class="toc-text">非齐次方程组 A*x&#x3D;b 的求解</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/10/notes/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E4%BB%A3%E7%AC%94%E8%AE%B0/" title="线代笔记.md">线代笔记.md</a><time datetime="2025-06-10T02:51:49.000Z" title="发表于 2025-06-10 10:51:49">2025-06-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/05/29/notes/%E6%95%B0%E5%AD%A6/%E9%AB%98%E6%95%B0%E4%B8%8B%E7%AC%94%E8%AE%B0/" title="高数下笔记.md">高数下笔记.md</a><time datetime="2025-05-29T03:44:58.000Z" title="发表于 2025-05-29 11:44:58">2025-05-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/05/15/notes/waydroid/how-to-use-waydroid/" title="how-to-use-waydroid">how-to-use-waydroid</a><time datetime="2025-05-15T10:15:09.000Z" title="发表于 2025-05-15 18:15:09">2025-05-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/05/07/notes/miscs/archlinux/steam-in-arch/" title="steam-in-arch">steam-in-arch</a><time datetime="2025-05-07T10:40:45.000Z" title="发表于 2025-05-07 18:40:45">2025-05-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/14/notes/pwn/Dependencies/%E9%87%8D%E5%AE%9A%E4%BD%8D,%20pic%20&amp;%20%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="重定位, pic &amp; 延迟绑定">重定位, pic &amp; 延迟绑定</a><time datetime="2025-04-14T07:49:58.000Z" title="发表于 2025-04-14 15:49:58">2025-04-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By HaoIne</div><div class="framework-info"><span>框架 </span><a href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
