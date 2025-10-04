@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>call_stack | HaoIne</title><meta name="author" content="HaoIne"><meta name="copyright" content="HaoIne"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="IA-32 (Intel 32位) 寄存器Note: 32 位说明栈中指针偏移量以 32位（4字节）为一个基元。  EAX ~ EDX: 通用寄存器 (general purpose registers)， 通用寄存器是通用的，但是有一部分指令对寄存器有特殊要求，这时它们分别有如下用途： EAX: 累加器 (“A” means Accumulator) EBX: 数据基地址暂存器 (“B” me">
+<meta property="og:type" content="article">
+<meta property="og:title" content="call_stack">
+<meta property="og:url" content="http://haoine.github.io/2025/03/24/notes/ctf/pwn/call_stack/index.html">
+<meta property="og:site_name" content="HaoIne">
+<meta property="og:description" content="IA-32 (Intel 32位) 寄存器Note: 32 位说明栈中指针偏移量以 32位（4字节）为一个基元。  EAX ~ EDX: 通用寄存器 (general purpose registers)， 通用寄存器是通用的，但是有一部分指令对寄存器有特殊要求，这时它们分别有如下用途： EAX: 累加器 (“A” means Accumulator) EBX: 数据基地址暂存器 (“B” me">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png">
+<meta property="article:published_time" content="2025-03-24T04:37:03.000Z">
+<meta property="article:modified_time" content="2025-07-21T05:08:11.175Z">
+<meta property="article:author" content="HaoIne">
+<meta property="article:tag" content="notes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "call_stack",
+  "url": "http://haoine.github.io/2025/03/24/notes/ctf/pwn/call_stack/",
+  "image": "http://haoine.github.io/img/%E5%A4%B4%E5%83%8F.png",
+  "datePublished": "2025-03-24T04:37:03.000Z",
+  "dateModified": "2025-07-21T05:08:11.175Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "HaoIne",
+      "url": "http://haoine.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://haoine.github.io/2025/03/24/notes/ctf/pwn/call_stack/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'call_stack',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/%E5%A4%B4%E5%83%8F.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">HaoIne</span></a><a class="nav-page-title" href="/"><span class="site-name">call_stack</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">call_stack</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-24T04:37:03.000Z" title="发表于 2025-03-24 12:37:03">2025-03-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-21T05:08:11.175Z" title="更新于 2025-07-21 13:08:11">2025-07-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/notes/">notes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><ul>
+<li><p><code>IA-32</code> (Intel 32位) 寄存器<br>Note: 32 位说明栈中指针偏移量以 32位（4字节）为一个基元。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/464c83f7c368ce43c64581941d307ee6.png" alt="IA-32 Normally Used Register"></p>
+<ul>
+<li><code>EAX</code> ~ <code>EDX</code>: 通用寄存器 (general purpose registers)，<ul>
+<li>通用寄存器是通用的，但是有一部分指令对寄存器有特殊要求，这时它们分别有如下用途：<ul>
+<li><code>EAX</code>: 累加器 (“A” means Accumulator)</li>
+<li><code>EBX</code>: 数据基地址暂存器 (“B” means Base)</li>
+<li><code>ECX</code>: 循环计数器 (“C” means Counter)</li>
+<li><code>EDX</code>: 操作数或操作结果暂存器 (“D” means Data)</li>
+</ul>
+</li>
+<li>为了方便存储较短的数据，通用寄存器都可以只使用低16位</li>
+</ul>
+</li>
+<li><code>ESI</code> 和 <code>EDI</code>: 这两个寄存器优势也被包括在通用寄存器内，但是不能拆分，一般用作字符串操作的源指针和目的指针。</li>
+<li><code>ESP</code> 和 <code>EBP</code>: <code>ESP</code> 存储的是栈顶地址，即栈指针 (Stack Pointer)，而 <code>EBP</code> 存储的是位于栈顶的栈帧的栈底地址，即基指针 (Base Pointer)</li>
+</ul>
+</li>
+<li><p>控制权移交</p>
+<ul>
+<li>控制权是指 <code>CPU</code> 执行指令的顺序</li>
+<li>当一个函数调用另一个函数时，<code>CPU</code>需要暂停当前函数的执行，转而去执行被调用函数。这个过程称为控制权移交。</li>
+</ul>
+</li>
+<li><p>栈帧(Stack Frame)</p>
+<ul>
+<li>栈帧是堆栈的逻辑片段，当调用函数时逻辑栈帧被压入堆栈，当函数返回时逻辑栈帧被从堆栈中弹出。</li>
+<li>栈帧的边界：<code>EBP</code> (Extended Base Pointer 扩展基指针) 指向当前栈帧底部（高地址），在当前栈帧内位置固定；<code>ESP</code> (Extended Stack Pointer 扩展栈指针) 指向当前栈帧顶部（低地址），当程序执行时 <code>ESP</code> 随着数据的入栈和出栈而移动。</li>
+</ul>
+</li>
+<li><p>函数调用栈 (Call Stack)</p>
+<ul>
+<li>函数调用栈的典型内存布局图：<br><img src="https://images0.cnblogs.com/i/569008/201405/271644419475745.jpg" alt="Classic Call Stack Memory Allocation Picture"><br>这是 caller function 和 callee function 的栈帧布局，<code>m(%ebp)</code> 表示以 <code>EBP</code> 为基地址、偏移量为<code>m</code>字节的内存空间（中的内容）。</li>
+<li>函数序 (Prologue)：被调函数设置 EBP，并保存其希望不变的寄存器值；被调函数为局部变量分配栈帧空间，并存储。</li>
+<li>函数跋 (Epilogue)：释放为局部变量分配的栈空间；恢复函数序中希望保持不变的寄存器值，包括主调函数的 EBP；被调函数将控制权交还主调函数（使用<code>ret</code>指令），这一步可能也会将先前的参数从栈上清除。</li>
+</ul>
+</li>
+<li><p>堆栈操作</p>
+<ul>
+<li><p><code>push</code>： ESP 减小 4 个字节；将寄存器数据压入堆栈，从高到底按字节讲数据存入 ESP-1、ESP-2、ESP-3 指向的地址单元</p>
+</li>
+<li><p><code>pop</code>：从 ESP 指向的空间取回数据存入寄存器，ESP 增加 4 个字节。</p>
+</li>
+<li><p><code>call</code>：将当前的指令指针（EIP）压入栈，以备返回时恢复执行下一条指令；然后将 EIP 指向被调函数的代码开始处，跳转到被调函数的入口处执行。</p>
+</li>
+<li><p><code>leave</code>：恢复主调函数的栈帧。等价于：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">movl %ebp, %esp</span><br><span class="line">popl %ebp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ret</code>：在执行<code>leave</code>之后，从栈顶弹出返回地址（由<code>call</code>指令压入栈中的）到 EIP，转到返回地址继续执行</p>
+</li>
+</ul>
+</li>
+<li><p>函数调用约定：</p>
+<ul>
+<li><p>函数参数的传递顺序和方式：是通过栈传递还是通过寄存器与栈的组合传递</p>
+</li>
+<li><p>栈的维护方式：被调函数返回时压栈的参数是由被调函数清除还是由主调函数清除</p>
+</li>
+<li><p>名称修饰 (Name-mangling) 策略：编译器在链接时为区分不同函数，对函数名作不同修饰</p>
+</li>
+<li><p><code>x86</code>函数参数传递方法：<br>x86 处理器 ABI 规范规定，所有传递给被调函数的参数都通过堆栈完成，压栈顺序为以函数参数从右到左的顺序。这种方式使得被调函数通过<code>m(%ebp)</code>读取参数时反而是随<code>m</code>增大而顺序读取，支持不定数量参数的函数。</p>
+<ul>
+<li>整型和指针参数的传递相同，因为都是<code>32bit</code>，直接从右向左压栈。</li>
+<li>浮点参数的传递：浮点参数的传递于整型的类似，只是浮点数据占用<code>64bit</code>。</li>
+<li>结构体和联合体参数的传递：与整型的类似，但是注意数据对齐，占用字节数为 4 的倍数。</li>
+</ul>
+</li>
+<li><p><code>x86</code>函数返回值传递方法：</p>
+<ol>
+<li>若返回值<strong>不超过4字节</strong>，通常将其保存在<code>EAX</code>中，调用方通过<code>EAX</code>读取返回值。</li>
+<li>若返回值<strong>大于4字节而小于8字节</strong>，则通过<code>EAX+EDX</code>联合返回，<code>EAX</code>保存低字节，<code>EDX</code>保存高字节。</li>
+<li>若返回值为<strong>浮点类型</strong>，通过专用的协处理器浮点数寄存器的栈顶返回。</li>
+<li>若返回值为<strong>结构体或联合体</strong>，传递返回值的方法根据编译器的不同，平台的不同，调用约定的不同，甚至编译参数的不同而不同，一种常见的方式是：<ul>
+<li>在将被调函数的参数依次压栈之后再向栈中压入一个隐藏参数，它是用于保存返回结构体或联合体的一块栈空间的地址。</li>
+<li>若未定义用于接收返回值的变量，在栈上额外开辟一块空间作为接收返回值的临时变量</li>
+<li>被调函数将返回值拷贝到隐藏参数指向的内存空间，再将该地址存入<code>EAX</code>。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><code>x86_64</code>的寄存器传参：<br>前六个参数分别使用<code>rdi, rsi, rdx, rcx, r8, r9</code>传递，多余的参数均存储在栈上。</p>
+</li>
+<li><p><code>x86_64</code>的函数返回值传递：<br>使用<code>rax</code>传递第一个返回值。</p>
+</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://HaoIne.github.io">HaoIne</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://haoine.github.io/2025/03/24/notes/ctf/pwn/call_stack/">http://haoine.github.io/2025/03/24/notes/ctf/pwn/call_stack/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://HaoIne.github.io" target="_blank">HaoIne</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/notes/">notes</a></div><div class="post-share"><div class="social-share" data-image="/img/%E5%A4%B4%E5%83%8F.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/03/21/Sorting-Algorithm/" title="Sorting Algorithm"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Sorting Algorithm</div></div><div class="info-2"><div class="info-item-1">Today, I’m learning sorting algorithm, and taking some notes in this passage. Selection SortI believe Selection Sort is the easiest sorting algorithm to understand, as it simply involves repeatedly finding the smallest elements in the unsorted portion of the array and swapping it with the first unsorted element.   Let’s take a look at the implementation: Implementation12345678910111213141516/* Section Sort */void section_sort(int *nums, int numsSize) &#123;  // Outer loop: i represents the...</div></div></div></a><a class="pagination-related" href="/2025/03/26/notes/ctf/pwn/Stack_Overflow/Stack_Buffer_Overflow/" title="Stack_Buffer_Overflow"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Stack_Buffer_Overflow</div></div><div class="info-2"><div class="info-item-1">我们平时说的栈溢出一般是指栈缓冲区溢出 (Stack Buffer Overflow)。 栈溢出的条件 程序必须向栈上写入数据。 写入的数据大小没有被很好地控制。  利用栈溢出的攻击方式直接现用 getshell若漏洞程序调用了现成的含有 systemcall 的函数，直接利用栈溢出覆盖函数返回地址为 systemcall 函数的地址 ROPROP(Return Oriented Programming)...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/03/31/notes/python/CS_61A/Sequence/" title="Sequence"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-31</div><div class="info-item-2">Sequence</div></div><div class="info-2"><div class="info-item-1">I’m learning the CS_61A course since January 2024, but there was a long time I suspended the learning of this course to learn some other subjects like Algorithm and Data Structure, and pwn in CTF.   And now it’s time to continue the learning.   Sequences are a list of Data in a specific order such as queues, arrays and linked lists. ListWe should know that Python does not have a built-in array type (like C arrays) that’s available without importing a module. But there is a list type in...</div></div></div></a><a class="pagination-related" href="/2025/04/10/notes/python/CS_61A/Containers/" title="Containers.md"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-10</div><div class="info-item-2">Containers.md</div></div><div class="info-2"><div class="info-item-1">In this passage I’ll show the notes of Containers in CS_61A. Box-and-Pointer NotationThis is just an easy diagrams to show lists in Environment Diagrams like this Processing Container Values Several built-in functions take iterable arguments and aggregate them into a value.  sum sum(iterable) -&gt; value sum(iterable, start) -&gt; value  This expression return the sum of an iterable of numbers (Not strings) plus the value of parameter ‘start’ (which defaults to 0). When the iterable is...</div></div></div></a><a class="pagination-related" href="/2025/05/15/notes/miscs/waydroid/how-to-use-waydroid/" title="how-to-use-waydroid"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-15</div><div class="info-item-2">how-to-use-waydroid</div></div><div class="info-2"><div class="info-item-1">If you want to run Android software, and accidentally you are using Arch Linux, waydroid is a good choice. 在这篇文章中我会讲述如何在 Arch Linux 中安装并且使用 waydroid。 </div></div></div></a><a class="pagination-related" href="/2025/06/18/notes/Full_stack/Foundation/CSS/foundation_intro_to_css/" title="Foundation Intro to CSS"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-18</div><div class="info-item-2">Foundation Intro to CSS</div></div><div class="info-2"><div class="info-item-1">Basic Syntax At the most basic level, CSS is made of various rules. These rules are made of a selector and a semicolon-separated list of declarations, with each of those declarations being made up of a property-value pair.  Just like this: Selectors Selectors refer to the HTML elements to which CSS rules apply.  Universal SelectorThe universal selector will select elements of every type (as in the whole document) 123* &#123;  color: purple;&#125;  Type SelectorA Type selector (or element...</div></div></div></a><a class="pagination-related" href="/2025/06/25/notes/Full_stack/Foundation/CSS/foundations-flexbox/" title="Flexbox"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-25</div><div class="info-item-2">Flexbox</div></div><div class="info-2"><div class="info-item-1">Flexbox is a way to arrange items into rows or columns. These items will flex based on some rules that you can define.  Flexbox is not just a single CSS property but a whole toolbox of properties that you can use to put things where you need them. Some of these properties belong on the flex container, while some go on the flex items. This is an important concept.   Flex container: any elements that has display: flex on it. Flex item: any element that lives directly inside of a flex...</div></div></div></a><a class="pagination-related" href="/2025/06/23/notes/Full_stack/Foundation/CSS/foundations-the-box-model/" title="The Box Model"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-23</div><div class="info-item-2">The Box Model</div></div><div class="info-2"><div class="info-item-1">The Box Model We could consider all the elements in the website a box. Yes, they are rectangular boxes, nesting in an other box, and lying beside an other box.  Here we use padding, border, and margin to manipulate the size of these boxes, and the space between them.  padding increases the space between the border of a box and the content of the box. border adds space (even if it’s only a pixel or two) between the margin and the padding margin increases the space between the borders of a box...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/%E5%A4%B4%E5%83%8F.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">HaoIne</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" href="https://github.com/HaoIne/"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome!</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/04/notes/ctf/pwn/pwn.college/playing-with-programs/data/" title="data">data</a><time datetime="2025-10-04T07:39:01.000Z" title="发表于 2025-10-04 15:39:01">2025-10-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/28/notes/ctf/pwn/overthewire/Bandit/" title="Bandit">Bandit</a><time datetime="2025-09-28T11:23:12.000Z" title="发表于 2025-09-28 19:23:12">2025-09-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/28/notes/ctf/pwn/pwn.college/computing-101/GDB/" title="GDB">GDB</a><time datetime="2025-09-28T10:09:20.000Z" title="发表于 2025-09-28 18:09:20">2025-09-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/26/notes/cs/csbu/csbu-OS/" title="csbu-OS">csbu-OS</a><time datetime="2025-09-26T03:50:52.000Z" title="发表于 2025-09-26 11:50:52">2025-09-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/26/notes/cs/csbu/csbu-Architecture-3/" title="csbu-Architecture-Small-to-big-systems">csbu-Architecture-Small-to-big-systems</a><time datetime="2025-09-26T03:31:04.000Z" title="发表于 2025-09-26 11:31:04">2025-09-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By HaoIne</div><div class="framework-info"><span>框架 </span><a href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
